@@ -3,6 +3,7 @@ const { Router } = require("express");
 const bodyParser = require("body-parser");
 const bcryptjs = require("bcryptjs");
 const createTokenForUser = require("../controllers/tokenCreate");
+const logger = require("../grafana/loki");
 
 const router = Router();
 router.use(bodyParser.json());
@@ -26,13 +27,14 @@ router.post("/", async (req, res) => {
     }
 
     const token = createTokenForUser(user);
-
+    logger.info("Request come from live server /login route");
     return res.json({
       token: token,
       messsage: "Login Successful",
       success: true,
     });
   } catch (error) {
+    logger.error(error.message);
     console.log(error);
     return res.status(404).json("/", {
       error: "Incorrect Email or Password",
