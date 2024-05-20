@@ -5,15 +5,11 @@ services:
       - "9000:9000"
     depends_on:
       - redis
-    environment:
-      - MONGODB_URI=mongodb+srv://shradesh71:newone71@cluster0.4tegtua.mongodb.net/spring
   worker:
     build: .
     command: ["node", "workers/worker.js"]
     depends_on:
       - redis
-    environment:
-      - MONGODB_URI=mongodb+srv://shradesh71:newone71@cluster0.4tegtua.mongodb.net/spring
   redis:
     image: "redis:latest"
     ports:
